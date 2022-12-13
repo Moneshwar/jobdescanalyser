@@ -1,0 +1,15 @@
+<%-include("header") -%>
+<div class="header">
+  <a href="" class="logo">Job Analyser</a>
+</div>
+<div style="width: auto; float:left;  height:100px;margin:10px">
+  <h1>Top Skills</h1>
+  <ul>
+    <%top.forEach(function(item){%>
+      <li>
+        <h3 style="text-transform:capitalize;"><%=item%></h3>
+      </li>
+    <%})%>
+  </ul>
+</div>
+<%-include("footer") -%>
