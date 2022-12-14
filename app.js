@@ -11,10 +11,6 @@ var TopSkills=[];
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine','ejs');
 app.use(express.static("public"));
-app.get('/error',function(req,res)
-{
-  res.render("error",{});
-})
 app.get('/',function(req,res){
   if(url.length==0)
   {
@@ -22,48 +18,40 @@ app.get('/',function(req,res){
   }
   else
   {
-    try{
-    (async () => {
-      const browser = await puppeteer.launch({
-        headless:false
-      });
-
-      const page = await browser.newPage();
-      await page.setViewport({ width: 1280, height: 720 });
-      await page.goto(url, { waitUntil: 'networkidle0' });
-        const hrefs = await page.evaluate(() => {
-          return Array.from(document.querySelectorAll('.jobTupleHeader .info.fleft a.title.fw500.ellipsis')).map(x=>x.href);
-        });
-      ans=[];
-      for (let i=0;i<2;i++) {
-        element=hrefs[i];
-        ans=content.content(element,skillsForThisJob,ans);
-      };
-      ans.then(function(res)
-    {
-      TopSkills=res;
-      print();
-    });
-      await browser.close();
-    })();
-    function print()
-    {
-      res.render("result",{top:TopSkills});
-    }
-    function printe()
-    {
-      res.redirect("/error");
-    }
-    }
-    catch{
-      res.redirect('/error');
-    }
+        (async () => {
+          const browser = await puppeteer.launch({
+            headless:false
+          });
+          const page = await browser.newPage();
+          await page.setViewport({ width: 1280, height: 720 });
+          await page.goto(url, { waitUntil: 'networkidle0' });
+            const hrefs = await page.evaluate(() => {
+              return Array.from(document.querySelectorAll('.jobTupleHeader .info.fleft a.title.fw500.ellipsis')).map(x=>x.href);
+            });
+                  ans=[];
+                  for (let i=0;i<2;i++) {
+                    element=hrefs[i];
+                    ans=content.content(element,skillsForThisJob,ans);
+                  };
+                  ans.then(function(res)
+                  {
+                  TopSkills=res;
+                  print();
+                  });
+            await browser.close();
+            })();
+            function print()
+            {
+              res.render("result",{top:TopSkills});
+            }
 
   }
 
 })
-app.post("/error",function(req,res){
+app.post("/home",function(req,res){
   url="";
+  skillsForThisJob={};
+  TopSkills=[];
   res.redirect('/');
 })
 app.post('/',function(req,res){
