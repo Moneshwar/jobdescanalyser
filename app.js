@@ -29,7 +29,7 @@ app.get('/',function(req,res){
               return Array.from(document.querySelectorAll('.jobTupleHeader .info.fleft a.title.fw500.ellipsis')).map(x=>x.href);
             });
                   ans=[];
-                  for (let i=0;i<2;i++) {
+                  for (let i=0;i<10;i++) {
                     element=hrefs[i];
                     ans=content.content(element,skillsForThisJob,ans);
                   };
