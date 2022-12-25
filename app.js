@@ -23,25 +23,28 @@ app.get('/',function(req,res){
             headless:false
           });
           const page = await browser.newPage();
-          await page.setViewport({ width: 1280, height: 720 });
           await page.goto(url, { waitUntil: 'networkidle0' });
+          //Collecting required HREFS from the home page
             const hrefs = await page.evaluate(() => {
               return Array.from(document.querySelectorAll('.jobTupleHeader .info.fleft a.title.fw500.ellipsis')).map(x=>x.href);
             });
-                  ans=[];
-                  for (let i=0;i<10;i++) {
-                    element=hrefs[i];
-                    ans=content.content(element,skillsForThisJob,ans);
+                  var ans;
+                  for (let i=0;i<hrefs.length && i<5;i++) {
+                    ans=content.content(hrefs[i],skillsForThisJob);
                   };
                   ans.then(function(res)
                   {
-                  TopSkills=res;
+                    keysSorted = Object.keys(skillsForThisJob).sort(function(a,b){return skillsForThisJob[b]-skillsForThisJob[a]})
+                    for(i=0;i<10 && i<keysSorted.length;i++){
+                      TopSkills.push(keysSorted[i]);
+                    }
                   print();
                   });
             await browser.close();
             })();
             function print()
             {
+              console.log(skillsForThisJob);
               res.render("result",{top:TopSkills});
             }
 

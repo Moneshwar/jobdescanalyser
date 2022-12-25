@@ -2,7 +2,7 @@ module.exports.tokenizer=async function (str) {
   const sw = require('remove-stopwords')
   function punctuationCleaner(rawString){
     var regex = /[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g;
-    var cleanString = rawString.replace(regex, '');
+    var cleanString = rawString.replace(regex, ' ');
     return cleanString;
   }
   function stopWordRemover(str){
@@ -15,7 +15,7 @@ module.exports.tokenizer=async function (str) {
     return str;
   }
   function noiseRemover(str){
-    str=str.replace(/[^a-z0-9 ,.?!]/ig, '')
+    str=str.replace(/[^a-z0-9]/ig, ' ')
     return str;
   }
     str=punctuationCleaner(str);

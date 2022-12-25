@@ -1,13 +1,12 @@
 module.exports.skillsChecking=function(receivedText,skillsForThisJob){
   const skill=require(__dirname+"/data/skillList.js");
   const skillsList=skill.skillList();
-
     var receivedTextCopy=receivedText.split(' ');
     skillsList.forEach(function(item){
     var count=0;
     for(let i=0;i<receivedTextCopy.length;i++){
       var data=receivedTextCopy[i];
-      if(data.toLowerCase().includes(item.toLowerCase())){
+      if(data.toLowerCase()===item.toLowerCase()){
         count=1;
         break;
       }
@@ -21,11 +20,4 @@ module.exports.skillsChecking=function(receivedText,skillsForThisJob){
           skillsForThisJob[temp]=count+x;
     }
   });
-keysSorted = Object.keys(skillsForThisJob).sort(function(a,b){return skillsForThisJob[b]-skillsForThisJob[a]})
-  //Top 10 Most needed skills
-  var ans=[];
-  for(i=0;i<10 && i<keysSorted.length;i++){
-    ans.push(keysSorted[i]);
-  }
-  return ans;
 }

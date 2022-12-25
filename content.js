@@ -11,8 +11,8 @@ module.exports.content=function(url,skillsForThisJob)
     await page.goto(url);
     const extractedText = await page.$eval('.job-desc', (el) => el.innerText);
     const receivedText=await token.tokenizer(extractedText);
-    ans=Skills.skillsChecking(receivedText,skillsForThisJob);
+    Skills.skillsChecking(receivedText,skillsForThisJob);
     await browser.close();
-    return ans;
+    return 1;
     })();
 }
